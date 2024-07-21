@@ -1,6 +1,6 @@
 #include "gameloop.h"
 
 int main() {
-    initLoop();
+    loop();
     return 0;
 }
