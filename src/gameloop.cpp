@@ -13,8 +13,10 @@ void initVars() {
     struct winsize size;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
 
-    ROW = size.ws_row + 1;
-    COL = size.ws_col + 1;
+    //ROW = size.ws_row + 1;
+    //COL = size.ws_col + 1;
+    ROW = size.ws_row;
+    COL = size.ws_col;
 }
 
 
@@ -39,7 +41,6 @@ void processInput(Snake &snake) {
     switch (ch) {
         case 'w':
             snake.changeDir(UP);
-            //test++;
             break;
         case 'a':
             snake.changeDir(LEFT);
