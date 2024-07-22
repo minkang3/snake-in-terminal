@@ -1,5 +1,4 @@
 #include "gameloop.h"
-#include "snake.h"
 #include <chrono>
 #include <thread>
 #include <csignal>
@@ -7,7 +6,7 @@
 #include <unistd.h>
 #include <ncurses.h>
 
-int ROW, COL;
+extern int test;
 
 
 void initVars() {
@@ -23,6 +22,7 @@ void init_ncurses() {
     initscr();
     cbreak();
     noecho();
+    timeout(0);
 }
 
 
@@ -33,10 +33,26 @@ void handleResize(int sig) {
 }
 
 
-void processInput() {
+void processInput(Snake &snake) {
     int ch = getch();
 
-    std::cout << static_cast<char>(ch);
+    switch (ch) {
+        case 'w':
+            snake.changeDir(UP);
+            //test++;
+            break;
+        case 'a':
+            snake.changeDir(LEFT);
+            break;
+        case 's':
+            snake.changeDir(DOWN);
+            break;
+        case 'd':
+            snake.changeDir(RIGHT);
+            break;
+        default:
+            break;
+    }
 }
 
 
@@ -46,22 +62,26 @@ void clearScreen() {
 
 
 void printGame() {
-    std::cout << "\n\n\n\n        " << ROW << ", " << COL << std::endl;
+    std::cout << "\n\n   " << ROW << ", " << COL << " " << test << std::endl;
 }
 
 
 void loop() {
     signal(SIGWINCH, handleResize);
 
+    init_ncurses();
     initVars();
     Snake snake;
     while (1) {
-        processInput();
+        processInput(snake);
         clearScreen();
         printGame();
         snake.move();
         snake.render();
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        
+        if (snake.dir == UP || snake.dir == DOWN)
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        else
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
     }
 }
