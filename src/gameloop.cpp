@@ -63,6 +63,7 @@ void clearScreen() {
 
 void printGame() {
     std::cout << "\n\n   " << ROW << ", " << COL << " " << test << std::endl;
+    std::cout << "   " << SN_ROW << ", " << SN_COL << std::endl;
 }
 
 
@@ -80,7 +81,7 @@ void loop() {
         snake.render();
         
         if (snake.dir == UP || snake.dir == DOWN)
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            std::this_thread::sleep_for(std::chrono::milliseconds(60));
         else
             std::this_thread::sleep_for(std::chrono::milliseconds(30));
     }

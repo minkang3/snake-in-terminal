@@ -5,6 +5,7 @@
 #include <cstdint>
 
 extern int ROW, COL;
+extern int SN_ROW, SN_COL;
 
 enum directions {
     UP    = 0,

@@ -23,24 +23,27 @@ void Snake::changeDir(uint8_t direction) {
     dir = direction;
 }
 
+int SN_ROW, SN_COL;
+
 void Snake::move() {
     test = dir;
+    SN_ROW = row;
+    SN_COL = col;
     switch (dir) {
         case UP:
-            row = (row - 1) % ROW;
+            row = (((row - 1) % ROW) + ROW) % ROW;
             break;
         case DOWN:
-            row = (row + 1) % ROW;
+            row = (((row + 1) % ROW) + ROW) % ROW;
             break;
         case LEFT:
-            col = (col - 1) % COL;
+            col = (((col - 1) % COL) + COL) % COL;
             break;
         case RIGHT:
-            col = (col + 1) % COL;
-            //test = dir;
+            col = (((col + 1) % COL) + COL) % COL;
             break;
         default:
-            col = (col + 1) % COL;
+            throw "Invalid Direction";
             break;
     }
 }
