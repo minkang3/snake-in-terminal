@@ -6,8 +6,6 @@
 #include <unistd.h>
 #include <ncurses.h>
 
-extern int test;
-
 
 void initVars() {
     struct winsize size;
@@ -63,7 +61,7 @@ void clearScreen() {
 
 
 void printGame() {
-    std::cout << "\n\n   " << ROW << ", " << COL << " " << test << std::endl;
+    std::cout << "\n\n   " << ROW << ", " << COL << " " << std::endl;
     std::cout << "   " << SN_ROW << ", " << SN_COL << std::endl;
 }
 
@@ -78,7 +76,7 @@ void loop() {
         processInput(snake);
         clearScreen();
         printGame();
-        snake.move();
+        snake.moveHead();
         snake.render();
         
         if (snake.dir == UP || snake.dir == DOWN)

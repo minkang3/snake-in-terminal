@@ -14,18 +14,35 @@ enum directions {
     RIGHT = 3
 };
 
-void printBox();
+void printBox(uint16_t row, uint16_t col);
+
+struct Node {
+    uint16_t m_row, m_col;
+    Node* next = nullptr;
+
+    void print();
+};
+
+struct Positions {
+    Node* head;
+    uint32_t length;
+
+    Positions();
+
+    void printPositions();
+    void pushOnHead(uint16_t row, uint16_t col);
+    std::pair<uint16_t,uint16_t> getHeadRowCol();
+};
 
 struct Snake {
-    uint16_t row, col;
+    Positions positions;
     uint8_t dir;
-    uint32_t length;
 
     Snake();
 
     void changeDir(uint8_t direction);
     void render();
-    void move();
+    void moveHead();
     void lengthen();
 };
 
