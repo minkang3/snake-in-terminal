@@ -5,13 +5,14 @@
 #include <iostream>
 
 extern int ROW, COL;
+extern bool gameRunning;
 
 void initVars();
 void init_ncurses();
 void handleResize(int sig);
 void processInput(Snake&);
 void clearScreen();
-void printGame();
+void printDebugInfo();
 void loop();
 
 #endif

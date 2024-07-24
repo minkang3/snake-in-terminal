@@ -1,4 +1,5 @@
 #include "gameloop.h"
+#include "snake.h"
 #include <chrono>
 #include <thread>
 #include <csignal>
@@ -6,6 +7,7 @@
 #include <unistd.h>
 #include <ncurses.h>
 
+bool gameRunning;
 
 void initVars() {
     struct winsize size;
@@ -49,6 +51,12 @@ void processInput(Snake &snake) {
         case 'd':
             snake.changeDir(RIGHT);
             break;
+        case '=':
+            snake.lengthen();
+            break;
+        case 'q':
+            gameRunning = false;
+            break;
         default:
             break;
     }
@@ -60,9 +68,13 @@ void clearScreen() {
 }
 
 
-void printGame() {
-    std::cout << "\n\n   " << ROW << ", " << COL << " " << std::endl;
-    std::cout << "   " << SN_ROW << ", " << SN_COL << std::endl;
+void printDebugInfo() {
+    std::cout << "\033[" << 1 << ";" << 1 << "H";
+    std::cout << "Height: " << ROW << ", Width: " << COL << " " << std::endl;
+    std::cout << "\033[" << 2 << ";" << 1 << "H";
+    std::cout << "Snake Pos: " << DB_SN_ROW << ", " << DB_SN_COL << std::endl;
+    std::cout << "\033[" << 3 << ";" << 1 << "H";
+    std::cout << "Snake Len: " << DB_SN_LENGTH << std::endl;
 }
 
 
@@ -72,10 +84,13 @@ void loop() {
     init_ncurses();
     initVars();
     Snake snake;
-    while (1) {
+
+    gameRunning = true;
+    
+    while (gameRunning) {
         processInput(snake);
         clearScreen();
-        printGame();
+        printDebugInfo();
         snake.moveHead();
         snake.render();
         
