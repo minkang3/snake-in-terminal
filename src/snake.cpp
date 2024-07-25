@@ -97,7 +97,10 @@ void Snake::render() {
 }
 
 void Snake::changeDir(uint8_t direction) {
-    dir = direction;
+    // Prevents direction change in opposite directions
+    // Works since up and down are 0 and 1 and left and right are 2 and 3
+    if (!(dir <= 1 && direction <= 1) && !(dir >= 2 && direction >= 2))
+        dir = direction;
 }
 
 
