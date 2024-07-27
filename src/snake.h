@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <cstdint>
+#include <vector>
+#include <random>
 
 extern int ROW, COL;
 extern int DB_SN_ROW, DB_SN_COL;
@@ -15,7 +17,12 @@ enum directions {
     RIGHT = 3
 };
 
-void printBox(uint16_t row, uint16_t col);
+enum colors {
+    RED = 0,
+    GREEN = 1
+};
+
+void printBox(uint16_t row, uint16_t col, uint8_t color=RED);
 
 struct Node {
     uint16_t m_row, m_col;
@@ -42,9 +49,24 @@ struct Positions {
     void debug_getLength();
 };
 
+struct Pellet {
+    uint16_t row, col;
+
+    Pellet(uint16_t row, uint16_t col) 
+    : row(row), col(col) {}
+
+    void print();
+};
+
 struct Snake {
     Positions positions;
     uint8_t dir;
+    std::vector<Pellet> pellets;
+
+    std::random_device rd;
+    std::mt19937 gen;
+    std::uniform_real_distribution<> row_dist;
+    std::uniform_real_distribution<> col_dist;
 
     Snake();
 
@@ -52,8 +74,12 @@ struct Snake {
     void render();
     void moveHead();
     void lengthen();
+
+    // Pellets
+    void createPellet(uint16_t row, uint16_t col);
+    void randomizePellet();
+    void renderPellets();
 };
 
-void testDeleteAllNext();
 
 #endif

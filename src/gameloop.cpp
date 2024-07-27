@@ -57,6 +57,9 @@ void processInput(Snake &snake) {
         case 'q':
             gameRunning = false;
             break;
+        case 'p':
+            snake.randomizePellet();
+            break;
         default:
             break;
     }

@@ -1,13 +1,16 @@
 #include "snake.h"
 #include <cassert>
+#include <random>
 
 int ROW, COL;
 int DB_SN_ROW, DB_SN_COL;
 int DB_SN_LENGTH;
 
-void printBox(uint16_t row, uint16_t col) {
+void printBox(uint16_t row, uint16_t col, uint8_t color) {
     std::cout << "\033[" << row << ";" << col << "H";
-    std::cout << "\033[41m";
+    if (color == RED) std::cout << "\033[41m";
+    else if (color == GREEN) std::cout << "\033[42m";
+    else std::cout << "\033[40m";
     std::cout << " ";
     std::cout << "\033[0m";
     std::cout << "\033[?25l";
@@ -24,15 +27,6 @@ void Node::deleteAllNext(Node* p) {
         delete p;
         p = next;
     }
-}
-
-void testDeleteAllNext() {
-    Node* head = new Node{1, 1};
-    for (int i = 0; i < 20; ++i) {
-        head = new Node{1, 1, head};
-    }
-    Node::deleteAllNext(head);
-    assert(head == nullptr);
 }
 
 // ********** | POSITIONS METHODS | ********** //
@@ -84,13 +78,23 @@ void Positions::debug_getLength() {
 
 
 
+// ********** | PELLET METHODS | ********** //
+void Pellet::print() {
+    printBox(row, col, GREEN);
+}
+
+
 // ********** | SNAKE METHODS | ********** //
 Snake::Snake()
 : positions()
 , dir(RIGHT)
+, gen(rd())
+, row_dist(1, ROW)
+, col_dist(1, COL)
 {}
 
 void Snake::render() {
+    renderPellets();
     positions.printPositions();
     // NOTE: DEBUG:
     positions.debug_getLength();
@@ -131,4 +135,22 @@ void Snake::moveHead() {
 
 void Snake::lengthen() {
     positions.increaseLength(1);
+}
+
+
+// ********** | SNAKE PELLET METHODS | ********** //
+void Snake::createPellet(uint16_t row, uint16_t col) {
+    pellets.emplace_back(row, col);
+}
+
+void Snake::randomizePellet() {
+    uint16_t r_row = row_dist(gen);
+    uint16_t r_col = col_dist(gen);
+    createPellet(r_row, r_col);
+}
+
+void Snake::renderPellets() {
+    for (Pellet p : pellets) {
+        p.print();
+    }
 }
