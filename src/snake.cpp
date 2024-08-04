@@ -5,6 +5,8 @@ int ROW, COL;
 int DB_SN_ROW, DB_SN_COL;
 int DB_SN_LENGTH;
 
+int GROWTH_VALUE = 3;
+
 void printBox(uint16_t row, uint16_t col, uint8_t color) {
     std::cout << "\033[" << row << ";" << col << "H";
     if (color == RED) std::cout << "\033[41m";
@@ -140,7 +142,7 @@ void Snake::moveHead() {
 
 
 void Snake::lengthen() {
-    positions.increaseLength(1);
+    positions.increaseLength(GROWTH_VALUE);
 }
 
 

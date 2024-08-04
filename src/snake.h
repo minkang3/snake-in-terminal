@@ -11,6 +11,8 @@ extern int ROW, COL;
 extern int DB_SN_ROW, DB_SN_COL;
 extern int DB_SN_LENGTH;
 
+extern int GROWTH_VALUE;
+
 enum directions {
     UP    = 0,
     DOWN  = 1,
