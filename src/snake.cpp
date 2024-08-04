@@ -94,7 +94,9 @@ Snake::Snake()
 , gen(rd())
 , row_dist(1, ROW)
 , col_dist(1, COL)
-{}
+{
+    randomizePellet();
+}
 
 void Snake::render() {
     renderPellets();
@@ -164,6 +166,7 @@ void Snake::detectPelletCollision(uint16_t row, uint16_t col) {
         if (it->row == row && it->col == col) {
             lengthen();
             pellets.erase(it);
+            randomizePellet();
             break;
         }
     }
