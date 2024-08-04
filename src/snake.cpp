@@ -82,6 +82,10 @@ void Pellet::print() {
     printBox(row, col, GREEN);
 }
 
+bool Pellet::operator<(const Pellet other) const {
+    return (this->row != other.row) ? this->row < other.row : this->col < other.col;
+}
+
 
 // ********** | SNAKE METHODS | ********** //
 Snake::Snake()
@@ -140,7 +144,7 @@ void Snake::lengthen() {
 
 // ********** | SNAKE PELLET METHODS | ********** //
 void Snake::createPellet(uint16_t row, uint16_t col) {
-    pellets.emplace_back(row, col);
+    pellets.emplace(row, col);
 }
 
 void Snake::randomizePellet() {
@@ -156,7 +160,11 @@ void Snake::renderPellets() {
 }
 
 void Snake::detectPelletCollision(uint16_t row, uint16_t col) {
-    for (Pellet p : pellets) {
-
+    for (auto it=pellets.begin();it!=pellets.end();++it) {
+        if (it->row == row && it->col == col) {
+            lengthen();
+            pellets.erase(it);
+            break;
+        }
     }
 }

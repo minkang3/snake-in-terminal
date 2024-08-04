@@ -59,6 +59,8 @@ struct Pellet {
     : row(row), col(col) {}
 
     void print();
+
+    bool operator<(const Pellet other) const;
 };
 
 struct Snake {
