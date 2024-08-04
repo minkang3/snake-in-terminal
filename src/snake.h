@@ -39,12 +39,12 @@ struct Positions {
     Node* head;
     uint32_t length;
     // TODO: Implement a matrix of bools to detect collision with itself
-    std::vector<std::vector<bool>> PositionMatrix;
+    std::vector<std::vector<bool>> BoolMatrix;
 
     Positions();
 
     void printPositions();
-    void pushOnHead(uint16_t row, uint16_t col);
+    bool pushOnHead(uint16_t row, uint16_t col);
     void increaseLength(uint32_t len) { length += len; }
 
 
@@ -81,7 +81,7 @@ struct Snake {
 
     void changeDir(uint8_t direction);
     void render();
-    void moveHead();
+    bool moveHead();
     void lengthen();
 
     // Pellets

@@ -34,6 +34,7 @@ void Node::deleteAllNext(Node* p) {
 Positions::Positions()
 : head{new Node{static_cast<uint16_t>(ROW/2), static_cast<uint16_t>(COL/2)}}
 , length(5)
+, BoolMatrix(ROW, std::vector<bool>(COL, false))
 {}
 
 
@@ -47,9 +48,11 @@ void Positions::printPositions() {
 
     if (n != nullptr && n != head) {
         if (n->next == nullptr) {
+            BoolMatrix[n->m_row][n->m_col] = false;
             prev->next = nullptr;
             delete n;
         } else {
+            assert(false);
             prev->next = nullptr;
             Node::deleteAllNext(n);
         }
@@ -60,8 +63,13 @@ void Positions::printPositions() {
     DB_SN_COL = head->m_col;
 }
 
-void Positions::pushOnHead(uint16_t row, uint16_t col) {
+bool Positions::pushOnHead(uint16_t row, uint16_t col) {
+    if (BoolMatrix[row][col] == true) {
+        return true;
+    }
     head = new Node{row, col, head};
+    BoolMatrix[row][col] = true;
+    return false;
 }
 
 std::pair<uint16_t,uint16_t> Positions::getHeadRowCol() {
@@ -117,7 +125,7 @@ void Snake::changeDir(uint8_t direction) {
 
 // TODO: Update this function to push a Node onto positions
 // and update positions to delete last element not within length
-void Snake::moveHead() {
+bool Snake::moveHead() {
     auto [row, col] = positions.getHeadRowCol();
     switch (dir) {
         case UP:
@@ -137,7 +145,7 @@ void Snake::moveHead() {
             break;
     }
     detectPelletCollision(row, col);
-    positions.pushOnHead(row, col);
+    return positions.pushOnHead(row, col);
 }
 
 

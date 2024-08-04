@@ -13,8 +13,6 @@ void initVars() {
     struct winsize size;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
 
-    //ROW = size.ws_row + 1;
-    //COL = size.ws_col + 1;
     ROW = size.ws_row;
     COL = size.ws_col;
 }
@@ -89,14 +87,17 @@ void loop() {
     Snake snake;
 
     gameRunning = true;
+    bool gameOver = false;
     
     while (gameRunning) {
         processInput(snake);
         clearScreen();
         printDebugInfo();
-        snake.moveHead();
+        gameOver = snake.moveHead();
         snake.render();
         
+        gameRunning = !gameOver;
+
         if (snake.dir == UP || snake.dir == DOWN)
             std::this_thread::sleep_for(std::chrono::milliseconds(60));
         else
