@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <vector>
 #include <random>
+#include <set>
 
 extern int ROW, COL;
 extern int DB_SN_ROW, DB_SN_COL;
@@ -35,6 +36,8 @@ struct Node {
 struct Positions {
     Node* head;
     uint32_t length;
+    // TODO: Implement a matrix of bools to detect collision with itself
+    std::vector<std::vector<bool>> PositionMatrix;
 
     Positions();
 
@@ -61,8 +64,10 @@ struct Pellet {
 struct Snake {
     Positions positions;
     uint8_t dir;
-    std::vector<Pellet> pellets;
+    //std::vector<Pellet> pellets;
+    std::set<Pellet> pellets;
 
+    // Used for randomly generating pellet locations
     std::random_device rd;
     std::mt19937 gen;
     std::uniform_real_distribution<> row_dist;
@@ -79,6 +84,9 @@ struct Snake {
     void createPellet(uint16_t row, uint16_t col);
     void randomizePellet();
     void renderPellets();
+
+    // TODO: DETECT COLLISION WITH PELLETS
+    void detectPelletCollision(uint16_t row, uint16_t col);
 };
 
 

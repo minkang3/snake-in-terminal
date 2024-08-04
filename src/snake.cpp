@@ -1,6 +1,5 @@
 #include "snake.h"
 #include <cassert>
-#include <random>
 
 int ROW, COL;
 int DB_SN_ROW, DB_SN_COL;
@@ -129,6 +128,7 @@ void Snake::moveHead() {
             throw "Invalid Direction";
             break;
     }
+    detectPelletCollision(row, col);
     positions.pushOnHead(row, col);
 }
 
@@ -152,5 +152,11 @@ void Snake::randomizePellet() {
 void Snake::renderPellets() {
     for (Pellet p : pellets) {
         p.print();
+    }
+}
+
+void Snake::detectPelletCollision(uint16_t row, uint16_t col) {
+    for (Pellet p : pellets) {
+
     }
 }
