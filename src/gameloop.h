@@ -16,3 +16,9 @@ void printDebugInfo();
 void loop();
 
 #endif
+
+// TODO:
+// 1. Add score display
+// 2. Add gameover screen
+// 3. Handle game closing more gracefully (set all values back to normal, like hidden cursor)
+
